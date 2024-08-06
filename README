@@ -1,7 +1,6 @@
 Project Overview
 
-This project features a remote-controlled car with multiple driving modes and various sensor integrations. The car is controlled via a remote control, which includes an OLED display that shows environmental data such as temperature, humidity 
-and light intensity. The car can operate in different modes including Joystick, Gesture, and Self-Drive modes.
+This project features a remote-controlled car with multiple driving modes and various sensor integrations. The car is controlled via a remote control, which includes an OLED display that shows environmental data such as temperature, humidity and light intensity. The car can operate in different modes including Joystick, Gesture, and Self-Drive modes.
 
 Features
   Remote Control
@@ -71,8 +70,7 @@ Features
       The sensor's resistance is calculated based on the output voltage. 
 
       This resistance is then used to determine the light intensity in lux using an empirical formula specific to the sensor:
-        lux = (R / -0.8616) ^ (1 / -0.8616) x 10 ^ (5.118 / -0.8616),
-      where R is the calculated resistance of the sensor, and the coefficients -0.8616 and 5.118 are empirically derived constants.
+        lux = (R / -0.8616) ^ (1 / -0.8616) x 10 ^ (5.118 / -0.8616), where R is the calculated resistance of the sensor, and the coefficients -0.8616 and 5.118 are empirically derived constants.
 
     Distance Calculation
 
