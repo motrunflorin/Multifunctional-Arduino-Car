@@ -7,7 +7,7 @@ Features
   Remote Control
 
     OLED Display: 
-      Shows (using I2C protocol) temperature, humidity, and light intensity for 3 seconds when the "print" button is pressed(in Joystick and Gesture modes), during which the car stops.
+      Shows (using I2C protocol) temperature, humidity, and light intensity for 3 seconds when the "print" button  is pressed(in Joystick and Gesture modes), during which the car stops.
       Displays the current driving mode continuously, with "Joystick mode" as the default.
       During Self-Drive mode the recorded sensor data is displayed continuously, being updated every 3 seconds;when obstacle detected the distance from it will be displayed for 3 seconds(without sensor data).
 
