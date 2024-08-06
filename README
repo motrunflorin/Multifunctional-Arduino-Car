@@ -79,8 +79,7 @@ Features
       To calculate distance using the HC-SR04 sensor, the speed of sound is determined using the formula:
                                   Speed = 331.4 + 0.6 × Temperature+ 0.0124 × Humidity
 
-      The speed of sound is then used to calculate the duration of the wave's travel in microseconds (converted to seconds),
-      and finally, the distance to the obstacle is determined in centimeters.
+      The speed of sound is then used to calculate the duration of the wave's travel in microseconds (converted to seconds), and finally, the distance to the obstacle is determined in centimeters.
 
     Obstacle Avoidance
 
