@@ -1,0 +1,92 @@
+Project Overview
+This project features a remote-controlled car with multiple driving modes and various sensor integrations. The car is controlled via a remote control, which includes an OLED display that shows environmental data such as temperature, humidity, and light intensity. The car can operate in different modes including Joystick, Gesture, and Self-Drive modes. Additionally, it has features like obstacle avoidance and automatic lighting control based on ambient light conditions.
+
+Features
+Remote Control
+OLED Display: Shows temperature, humidity, and light intensity for 3 seconds when the "print" button is pressed, during which the car stops. Displays the current driving mode continuously, with "Joystick mode" as the default.
+Buttons:
+print: Displays recorded sensor data.
+lights: Toggles the car's headlights.
+buzzer: Sounds the car's horn while pressed.
+joystick: Activates Joystick mode.
+gesture: Activates Gesture mode using the MPU6050 accelerometer.
+self_drive: Activates the car's autonomous driving mode (obstacle avoidance).
+Car
+Driving Modes:
+
+Joystick Mode: Controlled via joystick input.
+Gesture Mode: Controlled using gestures detected by the MPU6050 accelerometer.
+Self-Drive Mode: Autonomous driving with obstacle avoidance and automatic sensor data display.
+Sensors:
+
+Ultrasonic Sensor (HC-SR04): Measures distance to obstacles for obstacle avoidance.
+DHT11 Sensor: Measures temperature and humidity.
+Light Sensor: Measures ambient light intensity for automatic lighting control.
+Lighting: Automatically turns headlights on/off based on ambient light levels.
+
+Hardware Components
+Remote Control:
+
+OLED Display
+Buttons
+MPU6050 Accelerometer
+RF24 Module for radio communication
+Car:
+
+DC Motors
+Servo Motor
+Ultrasonic Sensor (HC-SR04)
+DHT11 Sensor
+Light Sensor (photocell)
+RF24 Module for radio communication
+Software and Libraries
+Remote Control:
+
+Wire.h: I2C communication
+MPU6050.h: Accelerometer library
+ezButton.h: Button logic
+Adafruit_GFX.h and Adafruit_SSD1306.h: OLED display
+Car:
+
+NewPing.h: Ultrasonic sensor
+Servo.h: Servo motor control
+SimpleDHT.h: DHT11 sensor
+Algorithms and Functions
+Movement
+The car's motors are controlled using a PWM technique to smoothly accelerate and decelerate. This involves rapidly switching the motor driver's pins on and off, creating a PWM effect that provides fine control over motor speed and torque.
+
+Light Intensity Calculation
+The light intensity is calculated by converting the analog signal from the light sensor into a corresponding voltage. This voltage is then used to compute the sensor's resistance and subsequently the light intensity in lux using a specific empirical formula.
+
+Distance Calculation
+The distance to an obstacle is calculated using the speed of sound, which is derived from the current temperature and humidity. The duration of the ultrasonic signal's travel is measured and converted to distance.
+
+Obstacle Avoidance
+In Self-Drive mode, when an obstacle is detected, the car stops, reverses, and the servo-mounted ultrasonic sensor scans for the clearest path. The car then proceeds in the direction with the most available space.
+
+Functions Implemented
+Remote Control Functions
+joystick(): Reads and sends joystick coordinates.
+accel(): Reads and sends accelerometer data.
+displayMode(): Displays the current mode and sensor data on the OLED.
+Car Functions
+moveStop(), moveBackward(), moveForward(), turnLeft(), turnRight(): Control motor movements.
+calculateLux(): Calculates light intensity in lux.
+getSensorData(): Retrieves temperature, humidity, and light intensity data.
+calculateDistance(): Calculates the distance to an obstacle.
+self_drive(): Implements the self-driving logic.
+Power Supply
+The car is powered by a 9V battery. A voltage regulator and capacitors are used to provide a stable 5V supply to the components.
+10K resistors are used as pull-down resistors for the remote control buttons, and a 220-ohm pull-up resistor is used with a 2N2222 transistor to control the car's headlights. A 2.2K resistor is used with the photocell.
+Development Environment
+IDE: Arduino IDE
+Microcontrollers: Arduino Nano
+Installation and Setup
+Hardware Setup: Assemble the remote control and car hardware as per the design.
+Software Setup: Upload the respective codes to the Arduino Nano boards using the Arduino IDE.
+Pairing: Ensure the RF24 modules are paired correctly for communication between the remote and the car.
+Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
