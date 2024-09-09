@@ -1,93 +1,114 @@
-Project Overview
+# Remote-Controlled Car Project
 
-This project features a remote-controlled car with multiple driving modes and various sensor integrations. The car is controlled via a remote control, which includes an OLED display that shows environmental data such as temperature, humidity and light intensity. The car can operate in different modes including Joystick, Gesture, and Self-Drive modes.
+## Overview
 
-Features
-  Remote Control
+This project features a remote-controlled car equipped with multiple driving modes and various sensor integrations. The car is controlled via a remote control with an OLED display that shows environmental data such as temperature, humidity, and light intensity. The car operates in three different modes: Joystick, Gesture, and Self-Drive.
 
-    OLED Display:
+## Features
 
-      Shows (using I2C protocol) temperature, humidity, and light intensity for 3 seconds when the "print" button  is pressed(in Joystick and Gesture modes), during which the car stops.
-      Displays the current driving mode continuously, with "Joystick mode" as the default.
-      During Self-Drive mode the recorded sensor data is displayed continuously, being updated every 3 seconds;when obstacle detected the distance from it will be displayed for 3 seconds(without sensor data).
+### Remote Control
 
-    Buttons:
+#### OLED Display
 
-      print: Displays recorded sensor data.
-      lights: Toggles the car's headlights.
-      buzzer: Sounds the car's horn while pressed.
-      joystick: Activates Joystick mode.
-      gesture: Activates Gesture mode.
-      self_drive: Activates the car's autonomous driving mode (obstacle avoidance).
+- **Sensor Data Display**: 
+  - Shows temperature, humidity, and light intensity for 3 seconds when the "print" button is pressed (in Joystick and Gesture modes).
+  - During this time, the car stops.
+- **Driving Mode Display**:
+  - Continuously displays the current driving mode.
+  - Default mode is "Joystick mode".
+- **Self-Drive Mode Display**:
+  - Continuously displays recorded sensor data.
+  - Updates every 3 seconds.
+  - When an obstacle is detected, the distance from it is displayed for 3 seconds (without sensor data).
 
-      Print, lights, buzeer buttons only used in Joystick and Gesture modes.
+#### Buttons
 
-  Car
+- **print**: Displays recorded sensor data.
+- **lights**: Toggles the car's headlights.
+- **buzzer**: Sounds the car's horn while pressed.
+- **joystick**: Activates Joystick mode.
+- **gesture**: Activates Gesture mode.
+- **self_drive**: Activates the car's autonomous driving mode (obstacle avoidance).
 
-    Driving Modes:
+*Note: Print, lights, and buzzer buttons are only used in Joystick and Gesture modes.*
 
-      Joystick Mode: Controlled via joystick input.
-      Gesture Mode: Controlled using gestures detected by the MPU6050 accelerometer (I2C protocol).
-      Self-Drive Mode: Autonomous driving with obstacle avoidance, automatic sensor data display and automatic lighting control based on ambient light conditions. Also when obstacle is detected distance is displayed for 3 seconds.
+### Car
 
-    Sensors:
+#### Driving Modes
 
-      Ultrasonic Sensor (HC-SR04): Measures distance to obstacles for obstacle avoidance.
-      DHT11 Sensor: Measures temperature and humidity.
-      Light Sensor: Measures ambient light intensity for automatic lighting control and displaying.
+- **Joystick Mode**: Controlled via joystick input.
+- **Gesture Mode**: Controlled using gestures detected by the MPU6050 accelerometer (I2C protocol).
+- **Self-Drive Mode**: 
+  - Autonomous driving with obstacle avoidance.
+  - Automatic sensor data display.
+  - Automatic lighting control based on ambient light conditions.
+  - When an obstacle is detected, the distance is displayed for 3 seconds.
 
-  Software and Libraries
+#### Sensors
 
-    RF24.h: for radio communication
+- **Ultrasonic Sensor (HC-SR04)**: Measures distance to obstacles for obstacle avoidance.
+- **DHT11 Sensor**: Measures temperature and humidity.
+- **Light Sensor**: Measures ambient light intensity for automatic lighting control and displaying.
 
-    Remote Control:
+### Software and Libraries
 
-      Wire.h: I2C communication
-      MPU6050.h: Accelerometer library
-      ezButton.h: Button logic
-      Adafruit_GFX.h and Adafruit_SSD1306.h: OLED display
+- **RF24.h**: For radio communication
+- **Remote Control**:
+  - `Wire.h`: I2C communication
+  - `MPU6050.h`: Accelerometer library
+  - `ezButton.h`: Button logic
+  - `Adafruit_GFX.h` and `Adafruit_SSD1306.h`: OLED display
+- **Car**:
+  - `NewPing.h`: Ultrasonic sensor
+  - `Servo.h`: Servo motor control
+  - `SimpleDHT.h`: DHT11 sensor
 
-    Car:
+### Algorithms and Functions
 
-      NewPing.h: Ultrasonic sensor
-      Servo.h: Servo motor control
-      SimpleDHT.h: DHT11 sensor
+#### Movement
 
-  Algorithms and Functions
+- **Motor Control**:
+  - Motors are activated sequentially to create a smooth transition.
+  - PWM (Pulse Width Modulation) is used for speed control.
+  - Gradual speed increase reduces initial shocks and prevents mechanical stress.
 
-    Movement
+#### Light Intensity Calculation
 
-      To control the motors, the state of the motor driver's pins is rapidly changed, with motors being activated sequentially (one at a time, in a way that's imperceptible for the car's movement).
-      This creates a smooth transition, affecting the impulse and power of the motors:
-        - The rapid switching creates a PWM effect: the motor receives short voltage pulses for smooth speed control.
-        - Gradual speed increase through PWM reduces initial shocks or sudden movements, preventing mechanical stress and system instability.
-        - PWM effectively modulates the average voltage supplied to the motors, managing peak currents during active periods without overheating or damaging the motor driver.
+- **Calculation**:
+  - Light intensity is calculated from the analog value read from the sensor.
+  - The formula used is:
+    ```plaintext
+    lux = (R / -0.8616) ^ (1 / -0.8616) x 10 ^ (5.118 / -0.8616)
+    ```
+  - Where R is the calculated resistance of the sensor.
 
-    Light Intensity Calculation
+#### Distance Calculation
 
-      Light intensity is calculated by converting the analog value read from the sensor to an output voltage.
-      The analog value is scaled to the appropriate range by dividing by 204.6, yielding the measured voltage.
-      The sensor's resistance is calculated based on the output voltage. 
+- **Formula**:
+  - Speed of sound is calculated as:
+    ```plaintext
+    Speed = 331.4 + 0.6 × Temperature + 0.0124 × Humidity
+    ```
+  - Distance is determined based on the speed of sound and the time taken for the wave to travel.
 
-      This resistance is then used to determine the light intensity in lux using an empirical formula specific to the sensor:
-        lux = (R / -0.8616) ^ (1 / -0.8616) x 10 ^ (5.118 / -0.8616), where R is the calculated resistance of the sensor, and the coefficients -0.8616 and 5.118 are empirically derived constants.
+#### Obstacle Avoidance
 
-    Distance Calculation
+- **Self-Drive Mode**:
+  - When a frontal obstacle is detected, the car stops, reverses, and rotates the servo-mounted proximity sensor.
+  - It calculates distances to potential obstacles in different directions and chooses the direction with the most clearance.
 
-      To calculate distance using the HC-SR04 sensor, the speed of sound is determined using the formula:
-                                  Speed = 331.4 + 0.6 × Temperature+ 0.0124 × Humidity
+### Power Supply
 
-      The speed of sound is then used to calculate the duration of the wave's travel in microseconds (converted to seconds), and finally, the distance to the obstacle is determined in centimeters.
+- **Components**:
+  - Car components are powered by a 9V battery.
+  - Motors use 6 batteries of 1.5V in series.
+  - A voltage regulator and capacitors provide a stable 5V supply for the car components.
+- **Resistors**:
+  - 10K resistors are used as pull-down resistors for the remote control buttons.
+  - A 220-ohm pull-up resistor is used with a 2N2222 transistor to control the car's headlights.
+  - A 2.2K resistor is used with the photocell.
 
-    Obstacle Avoidance
+## Files
 
-      In Self-Drive mode, when a frontal obstacle is detected, the car stops, reverses, and the servo-mounted proximity sensor rotates 90 degrees left and right.
-      It calculates the distances to potential obstacles in those directions and chooses the direction with the most clearance (or continues in that direction if no obstacles are detected).
-
-
-  Power Supply
-
-    The car components are powered by a 9V battery(not the motors, they use 6 batteries of 1.5V, in series). A voltage regulator and capacitors are used to provide a stable 5V supply for the components of car.
-    10K resistors are used as pull-down resistors for the remote control buttons, and a 220-ohm pull-up resistor is used with a 2N2222 transistor to control the car's headlights.
-    A 2.2K resistor is used with the photocell.
-
+- `README.md` - This file
+- [Other files related to the project]
