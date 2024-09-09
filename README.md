@@ -4,6 +4,48 @@
 
 This project features a remote-controlled car equipped with multiple driving modes and various sensor integrations. The car is controlled via a remote control with an OLED display that shows environmental data such as temperature, humidity, and light intensity. The car operates in three different modes: Joystick, Gesture, and Self-Drive.
 
+## Components
+
+### Remote Control
+
+- Arduino Nano
+- MPU6050
+- Blue OLED Display 0.91” (128×32 px)
+- nRF24L01 module
+- nRF24L01 adaptor
+- Biaxial Joystick Module with 5 pins
+- 2 x mini-breadboards
+- 6 x 10k resistors
+- 6 x push-buttons
+- Wires
+- 9V battery
+- Breadboard power supply for 3.3V and 5V
+
+### Car
+
+- Arduino UNO
+- Active buzzer module
+- DHT11 sensor
+- nRF24L01 module
+- nRF24L01 adaptor
+- L298N motor driver
+- 2 x DC Motor 3V-6V with 1:48 Gearbox
+- HC-SR04 module
+- Micro Servo SG90
+- Mini-breadboard
+- 2.2k resistor
+- 220-ohm resistor
+- LDR photoresistor
+- 2N2222 transistor
+- L7805CV linear voltage regulator
+- 10uF, 100uF, 0.1uF capacitors
+- 2 x switch buttons
+- Wires
+- 9V battery
+- 6 x 1.5V batteries
+- 4 x white LEDs
+
+
 ## Features
 
 ### Remote Control
