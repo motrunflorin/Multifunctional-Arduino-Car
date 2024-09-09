@@ -108,7 +108,3 @@ This project features a remote-controlled car equipped with multiple driving mod
   - A 220-ohm pull-up resistor is used with a 2N2222 transistor to control the car's headlights.
   - A 2.2K resistor is used with the photocell.
 
-## Files
-
-- `README.md` - This file
-- [Other files related to the project]
